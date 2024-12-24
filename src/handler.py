@@ -42,26 +42,26 @@ def handler(job):
         # Convert the bytes to an image
         image = Image.open(BytesIO(image_bytes))
 
-    try:
-        video = pipe(
-            image=image,
-            prompt=prompt,
-            negative_prompt=negative_prompt,
-            width=width,
-            height=height,
-            num_frames=num_frames,
-            num_inference_steps=num_inference_steps,
-        ).frames[0]
-        # export_to_video(video, "output.mp4", fps=24)
+    # try:
+    video = pipe(
+        image=image,
+        prompt=prompt,
+        negative_prompt=negative_prompt,
+        width=width,
+        height=height,
+        num_frames=num_frames,
+        num_inference_steps=num_inference_steps,
+    ).frames[0]
+    # export_to_video(video, "output.mp4", fps=24)
 
-        file_name = "new_out.mp4"
-        export_to_video(video, file_name, fps=fps)
+    file_name = "new_out.mp4"
+    export_to_video(video, file_name, fps=fps)
 
-        print("time elapsed:", time.time() - time_start)
-        encoded_frames=encode_video_to_base64(file_name)
-        return encoded_frames
-    except:
-        return {'Comment':'Error Occured'}
+    print("time elapsed:", time.time() - time_start)
+    encoded_frames=encode_video_to_base64(file_name)
+    return encoded_frames
+    # except:
+    #     return {'Comment':'Error Occured'}
 
 
 runpod.serverless.start({"handler": handler})
