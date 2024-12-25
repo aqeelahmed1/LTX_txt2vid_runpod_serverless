@@ -9,6 +9,7 @@ from diffusers.utils import export_to_video
 from utils import *
 import time
 
+print('************* loading pipeline *************')
 try:
     pipe = LTXPipeline.from_pretrained("Lightricks/LTX-Video", torch_dtype=torch.bfloat16)
     pipe.to("cuda")
@@ -19,13 +20,17 @@ try:
 
 except RuntimeError:
     quit()
+print('************* loaded pipeline *************')
 
 
 def handler(job):
     """ Handler function that will be used to process jobs. """
+    print('==start===')
+
 
     time_start = time.time()
     job_input = job['input']
+    print(job_input)
     image_base64 = job_input.get('image',None)
     prompt = job_input.get('prompt',None)
     negative_prompt=job_input.get('negative_prompt',None)
@@ -44,6 +49,7 @@ def handler(job):
     num_frames=min(num_frames,MAX_NUM_FRAMES)
     image=None
     if image_base64 is not None:
+        print('======== img to vid =============')
         image_bytes = base64.b64decode(image_base64)
         # Convert the bytes to an image
         image = Image.open(BytesIO(image_bytes))
@@ -58,6 +64,7 @@ def handler(job):
         ).frames[0]
 
     else:
+        print('=========txt to vid===============')
         video = pipe(
             prompt=prompt,
             negative_prompt=negative_prompt,
@@ -67,6 +74,7 @@ def handler(job):
             num_inference_steps=num_inference_steps,
         ).frames[0]
     # export_to_video(video, "output.mp4", fps=24)
+    print('finshed generating')
 
     file_name = "new_out.mp4"
     export_to_video(video, file_name, fps=fps)
