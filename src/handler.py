@@ -1,6 +1,9 @@
 """ Example handler file. """
+print('************* loading imports *************')
+
 from PIL import Image
 import runpod
+
 import torch
 from diffusers import LTXPipeline
 from diffusers import LTXImageToVideoPipeline
@@ -10,16 +13,12 @@ from utils import *
 import time
 
 print('************* loading pipeline *************')
-try:
-    pipe = LTXPipeline.from_pretrained("Lightricks/LTX-Video", torch_dtype=torch.bfloat16)
-    pipe.to("cuda")
-    pipe_im2vid = LTXImageToVideoPipeline.from_pretrained("Lightricks/LTX-Video", torch_dtype=torch.bfloat16)
-    pipe_im2vid.to("cuda")
 
+pipe = LTXPipeline.from_pretrained("Lightricks/LTX-Video", torch_dtype=torch.bfloat16)
+pipe.to("cuda")
+pipe_im2vid = LTXImageToVideoPipeline.from_pretrained("Lightricks/LTX-Video", torch_dtype=torch.bfloat16)
+pipe_im2vid.to("cuda")
 
-
-except RuntimeError:
-    quit()
 print('************* loaded pipeline *************')
 
 
