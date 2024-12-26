@@ -1,10 +1,11 @@
+print("*********************** step 1***************************")
 import os, json, requests, random, runpod
-
 import torch
 from diffusers import AutoencoderKLCogVideoX, CogVideoXImageToVideoPipeline, CogVideoXTransformer3DModel
 from diffusers.utils import export_to_video, load_image
 from transformers import T5EncoderModel, T5Tokenizer
 from utils import *
+print("*********************** step 2 ***************************")
 
 with torch.inference_mode():
     model_id = "/content/model"
@@ -14,6 +15,7 @@ with torch.inference_mode():
     tokenizer = T5Tokenizer.from_pretrained(model_id, subfolder="tokenizer")
     pipe = CogVideoXImageToVideoPipeline.from_pretrained(model_id, tokenizer=tokenizer, text_encoder=text_encoder, transformer=transformer, vae=vae, torch_dtype=torch.float16).to("cuda")
     # pipe.enable_model_cpu_offload()
+print("*********************** step 3 ***************************")
 
 def download_file(url, save_dir, file_name):
     os.makedirs(save_dir, exist_ok=True)
@@ -29,6 +31,7 @@ def download_file(url, save_dir, file_name):
 @torch.inference_mode()
 def generate(input):
     values = input["input"]
+    print("*********************** step 4 ***************************")
 
     input_image = values['input_image']
     filename='input_image.jpg'
@@ -44,10 +47,12 @@ def generate(input):
     # use_dynamic_cfg = True
     # num_inference_steps = 50
     # fps = 8
+    print("*********************** step 5 ***************************")
 
     image = load_image(filename)
     video = pipe(image=image, prompt=prompt, guidance_scale=guidance_scale, use_dynamic_cfg=use_dynamic_cfg, num_inference_steps=num_inference_steps).frames[0]
     export_to_video(video, "/content/cogvideox_5b_i2v_tost.mp4", fps=fps)
+    print("*********************** step 6v***************************")
 
     result = "/content/cogvideox_5b_i2v_tost.mp4"
     enc_vid=encode_video_to_base64(result)
