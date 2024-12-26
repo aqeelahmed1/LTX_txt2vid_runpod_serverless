@@ -1,38 +1,19 @@
-<div align="center">
+🐣 Please follow me for new updates https://twitter.com/camenduru <br />
+🔥 Please join our discord server https://discord.gg/k5BwmmvJJU <br />
+🥳 Please join my patreon community https://patreon.com/camenduru <br />
 
-<h1>SDXL Turbo Worker Template</h1>
+###  🥪 Tost
+https://tost.ai
 
-A specialized worker template for building custom RunPod Endpoint API workers utilizing the SDXL Turbo model.
+### 🧬 Code
+https://github.com/THUDM/CogVideo
 
-</div>
+### 📄 Paper
+https://arxiv.org/abs/2408.06072
 
-## Example Input
+### 🖼 Output
 
-```json
-{
-    "input": {
-        "prompt": "An image of a cat with a hat on.",
-    }
-}
-```
+https://github.com/user-attachments/assets/0e1ba690-44ff-40be-9885-bb014c17358a
 
-## Example Output
-
-The output from the SDXL Turbo Worker is a base64 encoded string of the generated image. Below is an example of what this output might look like:
-
-data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...
-
-
-To view the image, you can decode this base64 string into an image file using a suitable tool or programming library. For instance, in Python, you can use the following snippet:
-
-```python
-import base64
-from PIL import Image
-import io
-
-# Replace 'base64_string' with your actual base64 string
-base64_string = "iVBORw0KGgoAAAANSUhEUgAA..."
-image_data = base64.b64decode(base64_string)
-image = Image.open(io.BytesIO(image_data))
-image.show()
-```
+### 🏢 Sponsor
+[https://runpod.io](https://runpod.io?ref=iqi9iy8y)
