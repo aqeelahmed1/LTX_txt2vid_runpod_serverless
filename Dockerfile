@@ -1,16 +1,43 @@
-# Base image -> https://github.com/runpod/containers/blob/main/official-templates/base/Dockerfile
-# DockerHub -> https://hub.docker.com/r/runpod/base/tags
-FROM runpod/base:0.4.0-cuda11.8.0
+FROM nvidia/cuda:11.2.2-cudnn8-runtime-ubuntu20.04
 
-# The base image comes with many system dependencies pre-installed to help you get started quickly.
-# Please refer to the base image's Dockerfile for more information before adding additional dependencies.
-# IMPORTANT: The base image overrides the default huggingface cache location.
+# Set environment variable to avoid timezone configuration prompt
+ENV DEBIAN_FRONTEND=noninteractive
 
+# Install Python 3.9, pip, ffmpeg, and git
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    python3.11 \
+    python3.11-distutils \
+    python3-pip \
+    libsndfile1 \
+    ffmpeg \
+    git && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# --- Optional: System dependencies ---
-# COPY builder/setup.sh /setup.sh
-# RUN /bin/bash /setup.sh && \
-#     rm /setup.sh
+# Configure the timezone (set to UTC)
+RUN ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
+    dpkg-reconfigure --frontend noninteractive tzdata
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Add app files (Worker Template)
+COPY app /app
+
+# Update alternatives to use Python 3.9
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
+
+# Set LD_LIBRARY_PATH environment variable
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/python3.11/dist-packages/nvidia/cudnn/lib
+
+# # Install required pip modules
+# RUN python3 -m pip install --upgrade pip && \
+#     python3 -m pip install tensorboard==2.13.0 && \
+#     python3 -m pip install git+https://github.com/myshell-ai/MeloTTS.git && \
+#     python3 -m pip install --upgrade -r /app/requirements.txt --no-cache-dir && \
+#     python3 -m unidic download && \
+#     rm /app/requirements.txt
 
 
 # Python dependencies
