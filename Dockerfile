@@ -20,10 +20,10 @@ RUN ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
     dpkg-reconfigure --frontend noninteractive tzdata
 
 # Set the working directory to /app
-WORKDIR /app
+# WORKDIR /app
 
 # Add app files (Worker Template)
-COPY app /app
+# COPY app /app
 
 # Update alternatives to use Python 3.9
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
