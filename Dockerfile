@@ -13,6 +13,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 # Add src files (Worker Template)
 ADD src .
 
-RUN --mount=type=cache,target=/root/.cache/pip python3.9 /handler.py --default-timeout=100
+RUN --mount=type=cache,target=/root/.cache/pip python /handler.py --default-timeout=100
 
 CMD python -u /handler.py
