@@ -31,11 +31,14 @@ def decode_base64_and_save(encoded_str, output_image_path):
 
 # Example usage:
 # Encode the image to Base64
-input_image = 'test.jpg'  # Replace with your input image path
+input_image = 'example_image.jpg'  # Replace with your input image path
 encoded_string = encode_image_to_base64(input_image)
 
 # Save the Base64 string to a text file (optional)
+with open('encoded_image.txt', 'w') as file:
+    file.write(encoded_string)
 
+print(f"Image has been encoded to Base64 and saved to 'encoded_image.txt'")
 
 # Now, decode the Base64 string and save it back to an image
 decoded_image_path = 'decoded_image.png'  # Path where the image will be saved
