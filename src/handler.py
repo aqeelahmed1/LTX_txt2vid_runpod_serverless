@@ -12,7 +12,10 @@ from diffusers.utils import export_to_video
 from utils import *
 import time
 
-print('************* loading pipeline *************')
+device=torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
+print('************* loading pipeline *************',device)
 
 pipe = LTXPipeline.from_pretrained("Lightricks/LTX-Video", torch_dtype=torch.bfloat16)
 pipe.to("cuda")
