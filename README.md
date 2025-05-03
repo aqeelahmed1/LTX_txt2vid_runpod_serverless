@@ -62,5 +62,7 @@ Use the sample `test_input.json` file or send a POST request like this:
     "fps": 8
 
 }
+```
+
 ### 🏢 Sponsor
 [https://runpod.io](https://runpod.io?ref=iqi9iy8y)
